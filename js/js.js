@@ -6,6 +6,7 @@ function start() {
   $("#fundoGame").append("<div id='inimigo2'></div>");
   $("#fundoGame").append("<div id='amigo' class='anima3'></div>");
   $("#fundoGame").append("<div id='placar'></div>");
+  $("#fundoGame").append("<div id='energia'></div>");
 }
 
 let jogo = {};
@@ -26,6 +27,7 @@ let fimDeJogo = false;
 let pontos = 0;
 let salvos = 0;
 let perdidos = 0;
+let energiaAtual = 3;
 
 $(document).keydown(function (e) {
   jogo.pressionou[e.which] = true;
@@ -42,6 +44,7 @@ function loop() {
   moveAmigo();
   colisao();
   placar();
+  energia();
 }
 
 function moveFundo() {
@@ -129,6 +132,7 @@ function colisao() {
   let colisao6 = $("#inimigo2").collision($("#amigo"));
 
   if (colisao1.length > 0) {
+    energiaAtual--;
     inimigo1X = parseInt($("#inimigo1").css("left"));
     inimigo1Y = parseInt($("#inimigo1").css("top"));
     explosao1(inimigo1X, inimigo1Y);
@@ -138,6 +142,7 @@ function colisao() {
     $("#inimigo1").css("top", posicaoY);
   }
   if (colisao2.length > 0) {
+    energiaAtual--;
     inimigo2X = parseInt($("#inimigo2").css("left"));
     inimigo2Y = parseInt($("#inimigo2").css("top"));
     explosao2(inimigo2X, inimigo2Y);
@@ -169,6 +174,7 @@ function colisao() {
     $("#amigo").remove();
   }
   if (colisao6.length > 0) {
+    energiaAtual--;
     perdidos++;
     amigoX = parseInt($("#amigo").css("left"));
     amigoY = parseInt($("#amigo").css("top"));
@@ -252,4 +258,18 @@ function placar() {
       perdidos +
       "</h2>"
   );
+}
+function energia() {
+  if (energiaAtual == 3) {
+    $("#energia").css("background-image", "url(imgs/energia3.png)");
+  }
+  if (energiaAtual == 2) {
+    $("#energia").css("background-image", "url(imgs/energia2.png)");
+  }
+  if (energiaAtual == 1) {
+    $("#energia").css("background-image", "url(imgs/energia1.png)");
+  }
+  if (energiaAtual == 0) {
+    $("#energia").css("background-image", "url(imgs/energia0.png)");
+  }
 }
